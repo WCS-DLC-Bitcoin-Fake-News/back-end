@@ -8,6 +8,10 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
+    validate: [
+      (val) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(val),
+      "Please enter a valid email",
+    ],
   },
   password: {
     type: String,

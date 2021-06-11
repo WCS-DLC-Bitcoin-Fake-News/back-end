@@ -14,6 +14,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+//Define Routes
 app.use("/users", users);
 
 app.listen(port, () => {
