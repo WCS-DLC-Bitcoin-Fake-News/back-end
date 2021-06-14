@@ -1,6 +1,8 @@
 import express from "express";
 import users from "./routes/users.js";
 import connectDB from "./db.js";
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 
 //connect to database
