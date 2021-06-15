@@ -1,6 +1,8 @@
 import express from "express";
 import users from "./routes/users.js";
 import connectDB from "./db.js";
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 
 //connect to database
@@ -14,6 +16,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+//Define Routes
 app.use("/users", users);
 
 app.listen(port, () => {
