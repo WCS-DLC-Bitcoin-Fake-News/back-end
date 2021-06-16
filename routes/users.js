@@ -28,6 +28,7 @@ router.post("/signup", async (req, res) => {
     const payload = {
       user: { id: newUser.id },
     };
+
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
