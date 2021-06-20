@@ -32,7 +32,7 @@ const ProfileSchema = new mongoose.Schema(
        }
     },
     Wallet: {
-        type: String
+        type: String,
         required: [true, "A wallet address should be provided"],
     },
     Stake: {
