@@ -117,13 +117,27 @@ router.get("/", async (req, res) => {
 // @route   PUT/users/
 // @desc    Edit one user
 // @access  Private
-
-
 router.put("/:id", async (req, res) => {
   try {
     let user = await UserModel.findByIdAndUpdate(req.params.id, req.body);
     if (!user) {
       return res.status(400).json({ msg: "User not found" });
+    }
+    res.send(user)
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error);
+  }
+});
+
+// @route   DELETE/users/
+// @desc    Delete one user
+// @access  Private
+router.delete("/:id", async (req, res) => {
+  try {
+    let user = await UserModel.findByIdAndRemove(req.params.id, req.body);
+    if (!user) {
+      return res.status(400).json({ msg: "User cannot be deleted" });
     }
     res.send(user)
   } catch (error) {
