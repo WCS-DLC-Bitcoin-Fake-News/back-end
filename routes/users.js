@@ -81,4 +81,36 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+// @route   GET/users/:id
+// @desc    Request one user
+// @access  Public
+router.get("/:id", async (req, res) => {
+  try {
+    let user = await UserModel.findById(req.params.id).select("-password");
+    if (!user) {
+      return res.status(400).json({ msg: "User not found" });
+    }
+    res.send(user)
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error);
+  }
+});
+
+// @route   GET/users/
+// @desc    Request all users
+// @access  Public
+router.get("/", async (req, res) => {
+  try {
+    let user = await UserModel.find({}).select("-password");
+    if (!user) {
+      return res.status(400).json({ msg: "User list not found" });
+    }
+    res.send(user)
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error);
+  }
+});
+
 export default router;
