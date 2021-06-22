@@ -1,4 +1,9 @@
 import UserModel from "../models/User.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import auth from "../middleware/auth.js";
+import dotenv from "dotenv"
+dotenv.config()
 
 // post user to database
 export const create = async (req, res) => {
@@ -39,7 +44,7 @@ export const create = async (req, res) => {
 
 
 // Authenticate user and get token
-export const auth = async (req, res) => {
+export const authorize = async (req, res) => {
     const { email, password } = req.body;
     try {
         let user = await UserModel.findOne({ email });
@@ -111,7 +116,7 @@ export const update = async (req, res) => {
         if (!user) {
             return res.status(400).json({ msg: "User not found" });
         }
-        res.status(200).send(user);
+        res.status(200).send(user)
     } catch (error) {
         console.log(error.message);
         res.status(400).send(error);
@@ -134,7 +139,7 @@ export const destroy = async (req, res) => {
 
 export default {
     create,
-    auth,
+    authorize,
     show,
     index,
     update,
