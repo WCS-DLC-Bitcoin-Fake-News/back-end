@@ -1,3 +1,4 @@
+
 import express from "express";
 import UserModel from "../models/User.js";
 import bcrypt from "bcrypt";
@@ -102,9 +103,27 @@ router.get("/:id", async (req, res) => {
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    let user = await UserModel.find({}).select("-password");
+    let user = await UserModel.find({}).select("-password").limit(2);
     if (!user) {
       return res.status(400).json({ msg: "User list not found" });
+    }
+    res.send(user)
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error);
+  }
+});
+
+// @route   PUT/users/
+// @desc    Edit one user
+// @access  Private
+
+
+router.put("/:id", async (req, res) => {
+  try {
+    let user = await UserModel.findByIdAndUpdate(req.params.id, req.body);
+    if (!user) {
+      return res.status(400).json({ msg: "User not found" });
     }
     res.send(user)
   } catch (error) {
