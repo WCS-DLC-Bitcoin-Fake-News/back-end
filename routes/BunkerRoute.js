@@ -1,14 +1,14 @@
 import express from "express";
 const router = express.Router();
-import bunkersController from "../controller/BunkerController.js";
+import { create } from "../controller/BunkerController.js";
 
 // create a bunker
 
-router.post("/", bunkersController.create);
+router.post("/", create);
 
 // access a certain bunker
 
-router.get("/:id", bunkersController.show);
+/* router.get("/:id", bunkersController.show);
 
 // get all bunkers (it can overload the client)
 
@@ -21,3 +21,4 @@ router.put("/:id", bunkersController.update);
 // delete a certain bunker
 
 router.delete("/:id", bunkersController.destroy);
+ */
