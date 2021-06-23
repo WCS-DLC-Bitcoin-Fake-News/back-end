@@ -1,18 +1,17 @@
 import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema({
+const BunkerSchema = new mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
     title: {
         type: String,
-        required: [true, "A title should be provided"],
+        // required: [true, "A title should be provided"],
     },
     linkedMedia: {
         thumbnail: {
            type: String,
-           required: true,
         },
         thumbnailTitle: {
            type: String,
@@ -23,7 +22,7 @@ const PostSchema = new mongoose.Schema({
     },
     postDescription: {
         type: String,
-        required: [true, "Please provide a description of your research"],
+        // required: [true, "Please provide a description of your research"],
     },
     resourcesCounter: {
         type: [Schema.Types.ObjectId],
@@ -39,7 +38,7 @@ const PostSchema = new mongoose.Schema({
     },
     stakeCounter: {
         type: [Schema.Types.ObjectId],
-        //Not clear where should the data from the stake is coming, wallet & stake are in Profile.js
+        // Not clear where should the data from the stake is coming, wallet & stake are in Profile.js
         ref: 'profile', 
     },
     deadline: {
@@ -62,11 +61,11 @@ const PostSchema = new mongoose.Schema({
     },
     tag: {
         type: String,
-        required: [true, "Please select a tag"],
+        // required: [true, "Please select a tag"],
     }
 },
 { timestamps: true }
 );
 
-const PostModel = mongoose.model("post", ProfileSchema);
-export default PostModel;
+const BunkerModel = mongoose.model("bunker", BunkerSchema);
+export default BunkerModel;

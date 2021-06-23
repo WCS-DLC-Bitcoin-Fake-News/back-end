@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
       minLength: [8, "Password should be 8 or more characters"],
     },
     reputation: {
-      type: Int8Array,
+      type: Number,
     },
     avatar: {
       type: String,
