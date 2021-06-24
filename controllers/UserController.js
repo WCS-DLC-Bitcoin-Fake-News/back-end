@@ -8,7 +8,7 @@ dotenv.config();
 // @route    POST users/signup
 // @desc     Register a user
 // @access   Public
-const create = async (req, res) => {
+const create = async (req, res, next) => {
   const { name, email, password } = req.body;
   try {
     let user = await UserModel.findOne({ email });

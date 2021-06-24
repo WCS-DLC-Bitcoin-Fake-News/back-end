@@ -1,3 +1,4 @@
+import bunkers from "../routes/BunkerRoute.js";
 import express from "express";
 const router = express.Router();
 import {
@@ -26,5 +27,8 @@ router.put("/:id", update);
 
 // Delete one user
 router.delete("/:id", destroy);
+
+//GET all bunkers from one user
+router.get("/:user_id/bunkers", bunkers);
 
 export default router;
