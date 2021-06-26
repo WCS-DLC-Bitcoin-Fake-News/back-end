@@ -18,15 +18,21 @@ const UserSchema = new mongoose.Schema(
       type: String,
       minLength: [8, "Password should be 8 or more characters"],
     },
-    reputation: {
-      type: Number,
-    },
-    avatar: {
-      type: String,
-    },
+    bunkers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Bunker",
+      },
+    ],
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
   },
   { timestamps: true }
 );
 
-const UserModel = mongoose.model("user", UserSchema);
+const UserModel = mongoose.model("User", UserSchema);
 export default UserModel;

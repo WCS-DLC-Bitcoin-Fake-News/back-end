@@ -1,23 +1,24 @@
 import express from "express";
+import auth from "../middleware/auth.js";
 const router = express.Router();
-import bunkersController from "../controller/BunkerController.js";
+import { create, index } from "../controllers/BunkerController.js";
 
 // create a bunker
 
-router.post("/", bunkersController.create);
+router.post("/", auth, create);
 
-// access a certain bunker
-
-router.get("/:id", bunkersController.show);
-
+// get a certain bunker
+/* router.get("/:id", show);
+ */
 // get all bunkers (it can overload the client)
-
-router.get("/", bunkersController.index);
+router.get("/", index);
 
 // update a certain bunker
 
-router.put("/:id", bunkersController.update);
+/* router.put("/:id", update); */
 
 // delete a certain bunker
 
-router.delete("/:id", bunkersController.destroy);
+/* router.delete("/:id", destroy); */
+
+export default router;

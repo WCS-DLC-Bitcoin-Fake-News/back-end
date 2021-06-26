@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
 //Define Routes
 app.use("/users", users);
 app.use("/bunkers", bunkers);
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });

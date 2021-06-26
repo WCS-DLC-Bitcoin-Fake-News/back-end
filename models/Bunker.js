@@ -1,71 +1,74 @@
 import mongoose from "mongoose";
 
-const BunkerSchema = new mongoose.Schema({
+const BunkerSchema = new mongoose.Schema(
+  {
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     title: {
-        type: String,
-        // required: [true, "A title should be provided"],
+      type: String,
+      // required: [true, "A title should be provided"],
     },
-    linkedMedia: {
-        thumbnail: {
-           type: String,
-        },
-        thumbnailTitle: {
-           type: String,
-        },
-        thumbnailDescription: {
-           type: String,
-        },
+    body: {
+      type: String,
+    },
+    /* linkedMedia: {
+      thumbnail: {
+        type: String,
+      },
+      thumbnailTitle: {
+        type: String,
+      },
+      thumbnailDescription: {
+        type: String,
+      },
     },
     postDescription: {
-        type: String,
-        // required: [true, "Please provide a description of your research"],
+      type: String,
+      // required: [true, "Please provide a description of your research"],
     },
     resourcesCounter: {
-        type: [Schema.Types.ObjectId],
-        ref: 'resource',
+      type: [Schema.Types.ObjectId],
+      ref: "resource",
     },
     contributorCounter: {
-        type: [Schema.Types.ObjectId],
-        ref: 'user',
+      type: [Schema.Types.ObjectId],
+      ref: "user",
     },
     flagCounter: {
-        type: [Schema.Types.ObjectId],
-        ref: 'flag',
+      type: [Schema.Types.ObjectId],
+      ref: "flag",
     },
     stakeCounter: {
-        type: [Schema.Types.ObjectId],
-        // Not clear where should the data from the stake is coming, wallet & stake are in Profile.js
-        ref: 'profile', 
+      type: [Schema.Types.ObjectId],
+      // Not clear where should the data from the stake is coming, wallet & stake are in Profile.js
+      ref: "profile",
     },
     deadline: {
-        deadlineDate: {
-            type: Date,
-            required: [true, "Please select an expiration date"],
-        },
-        dayCount: {
-            type: String,
-        
-        }
+      deadlineDate: {
+        type: Date,
+        required: [true, "Please select an expiration date"],
+      },
+      dayCount: {
+        type: String,
+      },
     },
     voteCounter: {
-        type: [Schema.Types.ObjectId],
-        ref: 'vote',
+      type: [Schema.Types.ObjectId],
+      ref: "vote",
     },
     consensusBar: {
-        type: [Schema.Types.ObjectId],
-        ref: 'resource',
+      type: [Schema.Types.ObjectId],
+      ref: "resource",
     },
     tag: {
-        type: String,
-        // required: [true, "Please select a tag"],
-    }
-},
-{ timestamps: true }
+      type: String,
+      // required: [true, "Please select a tag"],
+    }, */
+  },
+  { timestamps: true }
 );
 
-const BunkerModel = mongoose.model("bunker", BunkerSchema);
+const BunkerModel = mongoose.model("Bunker", BunkerSchema);
 export default BunkerModel;

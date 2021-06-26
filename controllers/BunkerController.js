@@ -1,55 +1,44 @@
 import BunkerModel from "../models/Bunker.js";
+import UserModel from "../models/User.js";
 import bcrypt from "bcrypt";
 import auth from "../middleware/auth.js";
-import dotenv from "dotenv"
-dotenv.config()
+import dotenv from "dotenv";
+dotenv.config();
 
 // post a bunker to the db
 
-export const create = async (req, res) => {
-    const { id, author, title, linkedMedia, thumbnail } = req.body;
-    try {
-        let bunker = await BunkerModel.findOne({ id });
-        if (bunker) {
-            return res.status(400).send("Failed to send the bunker");
-        }
-        const newBunker = new BunkerModel({
-            id,
-            author,
-            title,
-            linkedMedia,
-            thumbnail,
-        });
-       
+const create = async (req, res) => {
+  console.log("create");
+  const { author, title, body } = req.body;
+  try {
+    const newBunker = new BunkerModel({
+      author: req.user.id,
+      title,
+      body,
+    });
+    await newBunker.save();
+    await UserModel.updateOne(
+      { id: req.params.id },
+      { $push: { bunkers: newBunker.id } }
+    );
 
-        await newBunker.save();
-
-        const payload = {
-            user: { id: user.id },
-            bunker: { id: newBunker.id}
-        };
-
-        jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            { expiresIn: 36000 },
-            (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            }
-        );
-    } catch (error) {
-        console.log(error.message);
-        res.status(400).send(error);
-    }
+    res.send(newBunker);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error);
+  }
+};
+// @route   GET/bunkers/
+// @desc    GET all bunkers from one user
+// @access  Public
+const index = async (req, res) => {
+  try {
+    let user = await UserModel.findById(req.params.id).populate("bunkers");
+    res.status(200).json(user.bunkers);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error);
+  }
 };
 
-export default {
-    create,
-    authorize,
-    show,
-    index,
-    update,
-    destroy
-}
-
+export { create, index };
