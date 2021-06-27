@@ -5,8 +5,10 @@ import auth from "../middleware/auth.js";
 import dotenv from "dotenv"
 dotenv.config()
 
-// post user to database
-export const create = async (req, res) => {
+// @route   POST/users/signup
+// @desc    create and login a user
+// @access  Public
+const create = async (req, res, next) => {
     const { name, email, password } = req.body;
     try {
         let user = await UserModel.findOne({ email });
@@ -33,7 +35,7 @@ export const create = async (req, res) => {
             { expiresIn: 36000 },
             (err, token) => {
                 if (err) throw err;
-                res.json({ token });
+                res.json({ token, user: newUser });
             }
         );
     } catch (error) {
@@ -42,9 +44,11 @@ export const create = async (req, res) => {
     }
 };
 
-
-// Authenticate user and get token
-export const authorize = async (req, res) => {
+// @route   POST/users/signin
+// @desc    login a user and get token
+// @access  Public
+const authorize = async (req, res) => {
+    console.log("in that route")
     const { email, password } = req.body;
     try {
         let user = await UserModel.findOne({ email });
@@ -69,7 +73,7 @@ export const authorize = async (req, res) => {
             { expiresIn: 36000 },
             (err, token) => {
                 if (err) throw err;
-                res.json({ token });
+                res.json({ token, user });
             }
         );
     } catch (error) {
@@ -78,9 +82,10 @@ export const authorize = async (req, res) => {
     }
 };
 
-
-// get user by id
-export const show = async (req, res) => {
+// @route   GET/users/:id
+// @desc    get user by id
+// @access  Public
+const show = async (req, res) => {
     try {
         let user = await UserModel.findById(req.params.id).select("-password");
         if (!user) {
@@ -94,8 +99,10 @@ export const show = async (req, res) => {
 };
 
 
-// get users from database
-export const index = async (req, res) => {
+// @route   GET/users/
+// @desc    get a list of users
+// @access  Public
+const index = async (req, res) => {
     try {
         let user = await UserModel.find({}).select("-password").limit(2);
         if (!user) {
@@ -109,8 +116,10 @@ export const index = async (req, res) => {
 };
 
 
-// update user from database
-export const update = async (req, res) => {
+// @route   PUT/users/:id
+// @desc    update a user
+// @access  Public
+const update = async (req, res) => {
     try {
         let user = await UserModel.findByIdAndUpdate(req.params.id, req.body);
         if (!user) {
@@ -123,8 +132,10 @@ export const update = async (req, res) => {
     }
 };
 
-// destroy user from database
-export const destroy = async (req, res) => {
+// @route   DELETE/users/:id
+// @desc    delete a user
+// @access  Public
+const destroy = async (req, res) => {
     try {
         let user = await UserModel.findByIdAndRemove(req.params.id, req.body);
         if (!user) {
