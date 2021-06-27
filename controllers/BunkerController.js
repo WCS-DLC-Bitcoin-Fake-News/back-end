@@ -17,6 +17,7 @@ const create = async (req, res) => {
     const newBunker = new BunkerModel({
       author: userId,
       title,
+      body,
       deadline
     });
     await newBunker.save();
@@ -39,8 +40,15 @@ const index = async (req, res) => {
   const { userId } = req.params
 
   try {
-    let user = await UserModel.findById(userId).populate("bunkers");
-    res.status(200).json(user.bunkers);
+    if( userId ){
+      let user = await UserModel.findById(userId).populate("bunkers");
+      res.status(200).json(user.bunkers);
+    }
+
+    let bunkers = await BunkerModel.find().populate("author");
+    res.status(200).json(bunkers);
+
+
   } catch (error) {
     console.log(error.message);
     res.status(400).send(error);
