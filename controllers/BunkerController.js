@@ -5,24 +5,28 @@ import auth from "../middleware/auth.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-// post a bunker to the db
+// @route   POST/bunkers/
+// @desc    create a bunker with a required author
+// @access  Public
 
 const create = async (req, res) => {
   console.log("create");
-  const { author, title, body } = req.body;
+  const { title, body, deadline } = req.body;
+  const { userId } = req.params;
   try {
     const newBunker = new BunkerModel({
-      author: req.user.id,
+      author: userId,
       title,
-      body,
+      deadline
     });
     await newBunker.save();
-    await UserModel.updateOne(
-      { id: req.params.id },
+    await UserModel.findByIdAndUpdate(
+      userId,
       { $push: { bunkers: newBunker.id } }
     );
 
     res.send(newBunker);
+
   } catch (error) {
     console.log(error.message);
     res.status(400).send(error);
@@ -32,8 +36,10 @@ const create = async (req, res) => {
 // @desc    GET all bunkers from one user
 // @access  Public
 const index = async (req, res) => {
+  const { userId } = req.params
+
   try {
-    let user = await UserModel.findById(req.params.id).populate("bunkers");
+    let user = await UserModel.findById(userId).populate("bunkers");
     res.status(200).json(user.bunkers);
   } catch (error) {
     console.log(error.message);
@@ -41,4 +47,61 @@ const index = async (req, res) => {
   }
 };
 
-export { create, index };
+
+// @route   GET/bunkers/:id
+// @desc    get a bunker by id
+// @access  Public
+const show = async (req, res) => {
+  try {
+      let user = await BunkerModel.findById(req.params.id).select("-password");
+      if (!user) {
+          return res.status(400).json({ msg: "User not found" });
+      }
+      res.status(200).send(user)
+  } catch (error) {
+      console.log(error.message);
+      res.status(400).send(error);
+  }
+};
+
+
+// @route   PUT/bunkers/:id
+// @desc    edit a bunker 
+// @access  Public
+const update = async (req, res) => {
+  try {
+      let user = await BunkerModel.findByIdAndUpdate(req.params.id, req.body);
+      if (!user) {
+          return res.status(400).json({ msg: "User not found" });
+      }
+      res.status(200).send(user)
+  } catch (error) {
+      console.log(error.message);
+      res.status(400).send(error);
+  }
+};
+
+// @route   DELETE/bunkers/:id
+// @desc    delete a user's bunker 
+// @access  Public
+const destroy = async (req, res) => {
+  try {
+      let user = await BunkerModel.findByIdAndRemove(req.params.id, req.body);
+      if (!user) {
+          return res.status(400).json({ msg: "User cannot be deleted" });
+      }
+      res.status(200).send(user);
+  } catch (error) {
+      console.log(error.message);
+      res.status(400).send(error);
+  }
+};
+
+export default {
+  create,
+  show,
+  index,
+  update,
+  destroy
+}
+

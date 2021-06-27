@@ -5,6 +5,7 @@ const BunkerSchema = new mongoose.Schema(
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: [ true , "We can not save a Bunker without an author" ]
     },
     title: {
       type: String,
@@ -13,7 +14,7 @@ const BunkerSchema = new mongoose.Schema(
     body: {
       type: String,
     },
-    /* linkedMedia: {
+    linkedMedia: {
       thumbnail: {
         type: String,
       },
@@ -28,44 +29,39 @@ const BunkerSchema = new mongoose.Schema(
       type: String,
       // required: [true, "Please provide a description of your research"],
     },
-    resourcesCounter: {
-      type: [Schema.Types.ObjectId],
-      ref: "resource",
-    },
-    contributorCounter: {
-      type: [Schema.Types.ObjectId],
-      ref: "user",
-    },
-    flagCounter: {
-      type: [Schema.Types.ObjectId],
-      ref: "flag",
-    },
-    stakeCounter: {
-      type: [Schema.Types.ObjectId],
-      // Not clear where should the data from the stake is coming, wallet & stake are in Profile.js
-      ref: "profile",
-    },
+    // resourcesCounter: {
+    //   type: [mongoose.Schema.Types.ObjectId],
+    //   ref: "Resource",
+    // },
+    // contributorCounter: {
+    //   type: [mongoose.Schema.Types.ObjectId],
+    //   ref: "User",
+    // },
+    // flagCounter: {
+    //   type: [mongoose.Schema.Types.ObjectId],
+    //   ref: "Flag",
+    // },
+    // stakeCounter: {
+    //   type: [mongoose.Schema.Types.ObjectId],
+    //   // Not clear where should the data from the stake is coming, wallet & stake are in Profile.js
+    //   ref: "Profile",
+    // },
     deadline: {
-      deadlineDate: {
-        type: Date,
-        required: [true, "Please select an expiration date"],
-      },
-      dayCount: {
-        type: String,
-      },
+      type: Date,
+      required: [true, "Please select an expiration date"],
     },
-    voteCounter: {
-      type: [Schema.Types.ObjectId],
-      ref: "vote",
-    },
-    consensusBar: {
-      type: [Schema.Types.ObjectId],
-      ref: "resource",
-    },
+    // voteCounter: {
+    //   type: [mongoose.Schema.Types.ObjectId],
+    //   ref: "vote",
+    // },
+    // consensusBar: {
+    //   type: [mongoose.Schema.Types.ObjectId],
+    //   ref: "resource",
+    // },
     tag: {
       type: String,
       // required: [true, "Please select a tag"],
-    }, */
+    },
   },
   { timestamps: true }
 );
