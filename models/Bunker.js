@@ -46,10 +46,10 @@ const BunkerSchema = new mongoose.Schema(
     //   // Not clear where should the data from the stake is coming, wallet & stake are in Profile.js
     //   ref: "Profile",
     // },
-    deadline: {
-      type: Date,
-      required: [true, "Please select an expiration date"],
-    },
+    // deadline: {
+    //   type: Date,
+    //   required: [true, "Please select an expiration date"],
+    // },
     // voteCounter: {
     //   type: [mongoose.Schema.Types.ObjectId],
     //   ref: "vote",
