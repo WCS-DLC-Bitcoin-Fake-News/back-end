@@ -10,13 +10,14 @@ dotenv.config();
 // @access Public
 
 const create = async (req, res) => {
-  const { body, author, bunkerId } = req.body;
+  const { body, author, bunkerId, commentId } = req.body;
   //   const { userId } = req.params;
   try {
     const newComment = new CommentModel({
       bunkerId,
       author,
       body,
+      commentId,
     });
     await newComment.save();
     await UserModel.findByIdAndUpdate(author, {
@@ -24,6 +25,9 @@ const create = async (req, res) => {
     });
     await BunkerModel.findByIdAndUpdate(bunkerId, {
       $push: { comments: newComment.id },
+    });
+    await CommentModel.findByIdAndUpdate(commentId, {
+      $push: { threads: newComment.id },
     });
     res.send(newComment);
   } catch (error) {
@@ -68,12 +72,10 @@ const index = async (req, res, next) => {
 // @desc get all comments of a bunker
 // @access Public
 
-const indexByBunker = async (req, res) => {
-  let bunkerId = req.params.bunkerId;
+const indexByComment = async (req, res) => {
+  let bunkerId = req.body.bunkerId;
   try {
-    let comments = await BunkerModel.findById(bunkerId)
-      .populate('comments')
-      .populate('author');
+    let comments = await BunkerModel.findById(bunkerId).populate("comments");
     res.status(200).json(comments);
   } catch (error) {
     res.status(400).send(error);
@@ -122,7 +124,7 @@ export default {
   create,
   show,
   index,
-  indexByBunker,
+  indexByComment,
   update,
   destroy,
 };

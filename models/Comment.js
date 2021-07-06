@@ -15,6 +15,10 @@ const CommentSchema = new mongoose.Schema(
     body: {
       type: String,
     },
+    threads: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    }]
   },
   { timestamps: true }
 );
