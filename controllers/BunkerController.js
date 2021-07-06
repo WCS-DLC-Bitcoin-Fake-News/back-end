@@ -11,14 +11,11 @@ dotenv.config();
 
 const create = async (req, res) => {
   console.log("create");
-  const { title, body, deadline } = req.body;
   const { userId } = req.params;
   try {
     const newBunker = new BunkerModel({
-      author: userId,
-      title,
-      body,
-      deadline
+      author: userId, 
+      ...req.body
     });
     await newBunker.save();
     await UserModel.findByIdAndUpdate(
