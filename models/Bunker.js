@@ -14,6 +14,10 @@ const BunkerSchema = new mongoose.Schema(
     body: {
       type: String,
     },
+    comments: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    }],
     linkedMedia: {
       thumbnail: {
         type: String,
