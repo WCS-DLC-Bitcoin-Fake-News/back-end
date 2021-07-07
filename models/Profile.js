@@ -22,26 +22,26 @@ const ProfileSchema = new mongoose.Schema(
    },
    Interactions: {
        bunkers: {
-           type: Int32Array
+           type: Number
        },
        contributions: {
-           type: Int32Array
+           type: Number
        },
        votes: {
-           type: Int32Array
+           type: Number
        }
     },
-    Wallet: {
-        type: String,
-        required: [true, "A wallet address should be provided"],
-    },
-    Stake: {
-        type: Int32Array
-    },
-    date: {
-        type: Date,
-        default: Date.now
-    }
+//    // Wallet: {
+//         type: String,
+//         required: [true, "A wallet address should be provided"],
+//     },
+//     Stake: {
+//         type: Number
+//     },
+//     date: {
+//         type: Date,
+//         default: Date.now
+//     }
 },
   { timestamps: true }
 );

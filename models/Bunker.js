@@ -14,21 +14,15 @@ const BunkerSchema = new mongoose.Schema(
     body: {
       type: String,
     },
-    linkedMedia: {
-      thumbnail: {
+    source: {
         type: String,
+        required: [ true , "We can not save a Bunker without a url" ]
       },
-      thumbnailTitle: {
-        type: String,
-      },
-      thumbnailDescription: {
-        type: String,
-      },
-    },
-    postDescription: {
-      type: String,
-      // required: [true, "Please provide a description of your research"],
-    },
+    comments: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    }],
+    
     // resourcesCounter: {
     //   type: [mongoose.Schema.Types.ObjectId],
     //   ref: "Resource",

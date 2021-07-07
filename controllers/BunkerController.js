@@ -11,14 +11,11 @@ dotenv.config();
 
 const create = async (req, res) => {
   console.log("create");
-  const { title, body, deadline } = req.body;
   const { userId } = req.params;
   try {
     const newBunker = new BunkerModel({
-      author: userId,
-      title,
-      body,
-      deadline
+      author: userId, 
+      ...req.body
     });
     await newBunker.save();
     await UserModel.findByIdAndUpdate(
@@ -61,11 +58,12 @@ const index = async (req, res) => {
 // @access  Public
 const show = async (req, res) => {
   try {
-      let user = await BunkerModel.findById(req.params.id).select("-password");
-      if (!user) {
+      let bunker = await BunkerModel.findOne({_id: req.params.id}).populate("author")
+    
+      if (!bunker) {
           return res.status(400).json({ msg: "User not found" });
       }
-      res.status(200).send(user)
+      res.status(200).send(bunker)
   } catch (error) {
       console.log(error.message);
       res.status(400).send(error);
