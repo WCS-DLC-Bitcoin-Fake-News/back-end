@@ -40,7 +40,7 @@ const show = async (req, res) => {
   try {
     let comment = await CommentModel.findById(req.body.commentId).populate(
       "author"
-    );
+    ).populate('threads');
     if (!comment) {
       return res.status(400).json({ msg: "Comment not found" });
     }
