@@ -32,6 +32,37 @@ const create = async (req, res) => {
   }
 };
 
+// @route POST/comments/threads
+// @desc create a thread with a required author and required comment Id
+// @access Public
+
+const createThread = async (req, res) => {
+  const { body, author, bunkerId, commentId } = req.body;
+  //   const { userId } = req.params;
+  try {
+    const newComment = new CommentModel({
+      bunkerId,
+      author,
+      body,
+      commentId,
+    });
+    await newComment.save();
+    await UserModel.findByIdAndUpdate(author, {
+      $push: { comments: newComment.id },
+    });
+    await BunkerModel.findByIdAndUpdate(bunkerId, {
+      $push: { comments: newComment.id },
+    });
+    await CommentModel.findByIdAndUpdate(commentId, {
+      $push: { threads: newComment.id },
+    });
+    res.send(newComment);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+};
+
 // @route GET/comments/:id
 // @desc get one comment
 // @access Public
@@ -80,6 +111,21 @@ const indexByBunker = async (req, res) => {
   }
 };
 
+
+// @route GET/comments/threads
+// @desc get all threads of a comment
+// @access Public
+
+const showThreads = async (req, res) => {
+  let commentId = req.params.commentId;
+  try {
+    let threads = await CommentModel.findById(commentId).populate("threads");
+    res.status(200).json(threads)
+  } catch (error) {
+    res.status(400).send(error);
+  }
+}
+
 // @route PUT/comments/:id
 // @desc update a comment
 // @access Public
@@ -120,9 +166,11 @@ const destroy = async (req, res) => {
 
 export default {
   create,
+  createThread,
   show,
   index,
   indexByBunker,
+  showThreads,
   update,
   destroy,
 };
