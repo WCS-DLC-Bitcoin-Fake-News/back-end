@@ -1,6 +1,8 @@
 import express from "express";
 import UserRoutes from "./UserRoutes.js"
 import BunkerRoutes from "./BunkerRoutes.js"
+import CommentRoutes from "./CommentRoutes.js"
+import ThreadRoutes from "./ThreadRoutes.js"
 const router = express.Router();
 
 // This is equivalent to defining routes in the way bellow 
@@ -18,6 +20,14 @@ const appRoutes = [{
   {
     route: "/bunkers", 
     middleware: BunkerRoutes
+  },
+  {
+    route: "/comments",
+    middleware: CommentRoutes
+  },
+  {
+    route: "/threads",
+    middleware: ThreadRoutes
   }
 ]
 
