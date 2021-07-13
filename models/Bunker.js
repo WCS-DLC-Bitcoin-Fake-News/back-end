@@ -18,6 +18,9 @@ const BunkerSchema = new mongoose.Schema(
         type: String,
         required: [ true , "We can not save a Bunker without a url" ]
       },
+    printedSource: {
+        type: String,
+    },
     comments: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Comment",
