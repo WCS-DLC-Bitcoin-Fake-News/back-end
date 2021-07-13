@@ -23,6 +23,7 @@ router.delete("/:id", userController.destroy);
 
 // Access bunkers resource by user id (this is a nested route)
 router.use("/:userId/bunkers", (req, res, next) => {
+    console.log("i am here before pdf")
     let thisUserIdIsTheUserIdLoggedIn = true
     if(thisUserIdIsTheUserIdLoggedIn) next()
     else res.error(403, "You can not create a bunker")
