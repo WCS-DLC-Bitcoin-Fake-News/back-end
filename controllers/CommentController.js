@@ -32,16 +32,15 @@ const create = async (req, res) => {
   }
 };
 
-
 // @route GET/comments/:id
 // @desc get one comment
 // @access Public
 
 const show = async (req, res) => {
   try {
-    let comment = await CommentModel.findById(req.body.commentId).populate(
-      "author"
-    ).populate('threads');
+    let comment = await CommentModel.findById(req.body.commentId)
+      .populate("author")
+      .populate("threads");
     if (!comment) {
       return res.status(400).json({ msg: "Comment not found" });
     }
@@ -56,7 +55,8 @@ const show = async (req, res) => {
 // @access Public
 
 const index = async (req, res, next) => {
-  if (req.body.bunkerId) next();
+  console.log('im in index')
+  if (req.params.bunkerId) return next();
   try {
     let comments = await CommentModel.find().populate("author");
     res.status(200).json(comments);
@@ -71,16 +71,15 @@ const index = async (req, res, next) => {
 
 const indexByBunker = async (req, res) => {
   let bunkerId = req.params.bunkerId;
+  console.log(bunkerId)
   try {
-    let comments = await BunkerModel.findById(bunkerId)
-      .populate('comments')
-      .populate('author');
+    let comments = await BunkerModel.findById(bunkerId).populate({path: 'comments', model: 'Comment', populate: {path: 'author', model: 'User'}});
+      console.log(comments)
     res.status(200).json(comments);
   } catch (error) {
     res.status(400).send(error);
   }
 };
-
 
 // @route PUT/comments/:id
 // @desc update a comment
