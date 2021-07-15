@@ -8,12 +8,14 @@ const scrap = async (req, res, next) => {
     try {
         console.log("hello")
         const browser = await puppeteer.launch();   
-        const page = await browser.newPage();
         console.log("hello2")
 
-        //await page.waitForSelector('is-loaded')
-        await page.waitForFunction('document.getElementsByClassName("is-loaded").length');
-        await page.goto(req.body.source);
+        await page.waitForSelector('#is-loaded')
+
+        await page.goto(source{});
+
+
+
 
 
         console.log("hello5")
