@@ -9,13 +9,14 @@ dotenv.config();
 // @desc    create a bunker with a required author
 // @access  Public
 
-const create = async (req, res) => {
+const create = async (req, res, next) => {
   console.log("create");
+  console.log(req)
   const { userId } = req.params;
   try {
     const newBunker = new BunkerModel({
-      author: userId,
-      ...req.body,
+      author: userId, 
+      ...req.body
     });
     await newBunker.save();
     await UserModel.findByIdAndUpdate(userId, {
@@ -68,6 +69,7 @@ const show = async (req, res) => {
 // @desc    edit a bunker
 // @access  Public
 const update = async (req, res) => {
+  console.log(req.body, req.params);
   try {
     let user = await BunkerModel.findByIdAndUpdate(req.params.id, req.body);
     if (!user) {
