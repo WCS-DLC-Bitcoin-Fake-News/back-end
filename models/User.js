@@ -20,6 +20,7 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       minLength: [8, "Password should be 8 or more characters"],
+      select: false,
     },
     bunkers: [
       {
