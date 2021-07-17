@@ -39,7 +39,6 @@ const create = async (req, res, next) => {
             }
         );
     } catch (error) {
-        console.log(error.message);
         res.status(400).send(error);
     }
 };
@@ -48,19 +47,18 @@ const create = async (req, res, next) => {
 // @desc    login a user and get token
 // @access  Public
 const authorize = async (req, res) => {
-    console.log("in that route")
     const { email, password } = req.body;
     try {
         let user = await UserModel.findOne({ email });
         if (!user) {
             return res.status(400).json({ msg: "Invalid Credentials" });
         }
-
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
             return res.status(400).json({ msg: "Invalid Credentials" });
         }
+        user.delete("password")
 
         const payload = {
             user: {
@@ -77,7 +75,6 @@ const authorize = async (req, res) => {
             }
         );
     } catch (error) {
-        console.log(error.message);
         res.status(400).send(error);
     }
 };
