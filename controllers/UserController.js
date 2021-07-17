@@ -58,7 +58,8 @@ const authorize = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ msg: "Invalid Credentials" });
         }
-        user.delete("password")
+
+        delete user.password
 
         const payload = {
             user: {

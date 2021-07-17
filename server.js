@@ -25,12 +25,6 @@ app.get("/", (req, res) => {
 app.use("/api", ApiRoutes);
 
 
-app.use("/", (req, res, next) => {
-  res.render('tweetDisplay.html');
-});
-
-
-
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
