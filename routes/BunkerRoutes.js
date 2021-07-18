@@ -4,9 +4,10 @@ import bunkerController from "../controllers/BunkerController.js";
 import scrap from "../middleware/scrap.js"
 import auth from "../middleware/auth.js";
 import CommentRoutes from "../routes/CommentRoutes.js";
+import scrapTweet from "../middleware/scrapTweet.js";
 
 // create a bunker
-router.post("/", scrap, bunkerController.create);
+router.post("/", scrap, scrapTweet, bunkerController.create);
 
 // access a certain bunker
 router.get("/:id", bunkerController.show);

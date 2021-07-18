@@ -1,7 +1,13 @@
 import puppeteer from 'puppeteer';
 
 const scrap = async (req, res, next) => {
+    
     console.log(req.body.source)
+
+    if(req.body.source.includes("twitter.com") ) {
+        return next()
+    }
+
     try {
         
         const browser = await puppeteer.launch({  });  
