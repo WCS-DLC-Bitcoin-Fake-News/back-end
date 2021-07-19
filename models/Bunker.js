@@ -5,7 +5,7 @@ const BunkerSchema = new mongoose.Schema(
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: [ true , "We can not save a Bunker without an author" ]
+      required: [true, "We can not save a Bunker without an author"],
     },
     title: {
       type: String,
@@ -16,17 +16,26 @@ const BunkerSchema = new mongoose.Schema(
     },
 
     source: {
-        type: String,
-        required: [ true , "We can not save a Bunker without a url" ]
-      },
-    printedSource: {
-        type: String,
+      type: String,
+      required: [true, "We can not save a Bunker without a url"],
     },
-    comments: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
-    }],
-    
+    printedSource: {
+      type: String,
+    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+
+    published: {
+      type: Boolean,
+
+      default: false,
+    },
+
+    // `Date.now()` returns the current unix timestamp as a number
     // resourcesCounter: {
     //   type: [mongoose.Schema.Types.ObjectId],
     //   ref: "Resource",
