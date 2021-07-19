@@ -10,8 +10,6 @@ dotenv.config();
 // @access  Public
 
 const create = async (req, res, next) => {
-  console.log("create");
-  console.log(req)
   const { userId } = req.params;
   try {
     const newBunker = new BunkerModel({
