@@ -2,14 +2,12 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 
 const scrapTweet = async (req, res, next) => {
-    console.log("i am in scrapTweet")
-    console.log(req.body.source)
-
-
+    if(req.body.printedSource) {
+    return next()
+    }
+  
     const parts = req.body.source.split("/");
     const tweetId = parts[parts.length - 1];
-
-
     const response = await fetch('https://tweetpik.com/api/images', { 
       method: "POST",
       headers: {
