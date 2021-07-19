@@ -10,11 +10,12 @@ dotenv.config();
 // @access  Public
 
 const create = async (req, res, next) => {
+
   const { userId } = req.params;
   try {
     const newBunker = new BunkerModel({
-      author: userId, 
-      ...req.body
+      author: userId,
+      ...req.body,
     });
     await newBunker.save();
     await UserModel.findByIdAndUpdate(userId, {
@@ -36,7 +37,11 @@ const index = async (req, res) => {
       req.query.skip && /^\d+$/.test(req.query.skip)
         ? Number(req.query.skip)
         : 0;
-    let bunkers = await BunkerModel.find().skip(skip).limit(8);
+    let bunkers = await BunkerModel.find()
+      .skip(skip)
+      .limit(8)
+      .where("published")
+      .equals(true);
     res.status(200).json(bunkers);
   } catch (error) {
     console.log(error.message);
