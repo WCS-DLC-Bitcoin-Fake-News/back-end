@@ -9,7 +9,7 @@ import dotenv from "dotenv";
 
 const create = async (req, res) => { 
     const { author, bunkerId, votes, pro, stake } = req.body
-
+    console.log(req.body);
 try {
     const newVote = new VoteModel({
       bunkerId,
