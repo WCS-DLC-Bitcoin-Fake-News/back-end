@@ -28,6 +28,12 @@ const BunkerSchema = new mongoose.Schema(
         ref: "Comment",
       },
     ],
+    highlights: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Highlight",
+      },
+    ],
     stake: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "BunkerStake",
