@@ -7,29 +7,47 @@ import dotenv from "dotenv";
 // @desc create a vote with a required author
 // @access Public
 
-const create = async (req, res) => { 
-    const { author, bunkerId, votes, pro, stake } = req.body
-    console.log(req.body);
-try {
-    const newVote = new VoteModel({
-      bunkerId,
-      author,
-      votes,
-      pro,
-      stake,
-    });
-    await newVote.save();
-    await UserModel.findByIdAndUpdate(author, {
-      $push: { votes: newVote.id },
-    });
-    await BunkerModel.findByIdAndUpdate(bunkerId, {
-      $push: { votes: newVote.id },
-    });
-    res.send(newVote);
-  } catch (error) {
-    console.log(error);
-    res.status(400).send(error);
-  }
+const create = async (req, res, next) => { 
+    const { author, pro, votes } = req.body;  
+    const { bunkerId } = req.params
+    console.log(req.body, bunkerId);
+
+    try {
+        const voteExist = await VoteModel.exists({ author, bunkerId, pro });
+        //const bunkerExists = await bunkerId.exists({ bunkerId: bunkerId});
+        console.log(voteExist)
+
+        if (voteExist) {
+            console.log("Vote exists for this user");
+            let vote = await VoteModel.findOne({ author, bunkerId, pro })
+            // find the vote
+            await vote.update({
+                votes: vote.votes + 1, 
+                stake: Math.pow(vote.votes + 1, 2) 
+            })
+            
+            return res.send(vote);
+        }  
+
+        const newVote = new VoteModel({
+            ...req.body,
+            bunkerId
+        });
+        await newVote.save();
+        await UserModel.findByIdAndUpdate(author, {
+            $push: { votes: newVote._id },
+        });
+
+        await BunkerModel.findByIdAndUpdate(bunkerId, {
+            $push: { votes: newVote._id },
+        });
+
+        res.send(newVote);
+        
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error);
+    }
 };
 
 // @route GET/votes/:id
@@ -54,7 +72,6 @@ const show = async (req, res) => {
 // @access Public
 
 const index = async (req, res, next) => {
-  console.log('im in index')
   if (req.params.bunkerId) return next();
   try {
     let votes = await VoteModel.find().populate("author");
@@ -71,9 +88,10 @@ const index = async (req, res, next) => {
 const indexByBunker = async (req, res) => {
   let bunkerId = req.params.bunkerId;
   console.log(bunkerId)
+  console.log("indexByBunker")
   try {
-    let votes = await BunkerModel.findById(bunkerId).populate({path: 'votes', model: 'vote', populate: {path: 'author', model: 'User'}});
-      console.log(votes)
+    let votes = await BunkerModel.findById(bunkerId).populate("votes");
+    console.log(votes)
     res.status(200).json(votes);
   } catch (error) {
     res.status(400).send(error);
@@ -85,6 +103,7 @@ const indexByBunker = async (req, res) => {
 // @access Public
 
 const update = async (req, res) => {
+    console.log("i am in update")
   try {
     let vote = await VoteModel.findByIdAndUpdate(
       req.body.votes,
