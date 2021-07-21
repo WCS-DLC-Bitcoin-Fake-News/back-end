@@ -6,10 +6,10 @@ import VoteController from "../controllers/VoteController.js";
 router.post("/", VoteController.create);
 
 // access a certain vote
-router.get("/:id", VoteController.show);
+//router.get("/:id", VoteController.show);
 
 // get all votes
-router.get("/", VoteController.index, VoteController.indexByBunker);
+router.get("/", VoteController.indexByBunker);
 
 // update a certain vote
 router.put("/:id", VoteController.update);
