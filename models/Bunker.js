@@ -28,10 +28,12 @@ const BunkerSchema = new mongoose.Schema(
         ref: "Comment",
       },
     ],
-
+    stake: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "BunkerStake",
+    },
     published: {
       type: Boolean,
-
       default: false,
     },
 
@@ -47,11 +49,6 @@ const BunkerSchema = new mongoose.Schema(
     // flagCounter: {
     //   type: [mongoose.Schema.Types.ObjectId],
     //   ref: "Flag",
-    // },
-    // stakeCounter: {
-    //   type: [mongoose.Schema.Types.ObjectId],
-    //   // Not clear where should the data from the stake is coming, wallet & stake are in Profile.js
-    //   ref: "Profile",
     // },
     // deadline: {
     //   type: Date,
