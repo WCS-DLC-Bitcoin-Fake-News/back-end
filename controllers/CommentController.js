@@ -55,7 +55,6 @@ const show = async (req, res) => {
 // @access Public
 
 const index = async (req, res, next) => {
-  console.log('im in index')
   if (req.params.bunkerId) return next();
   try {
     let comments = await CommentModel.find().populate("author");
@@ -71,10 +70,18 @@ const index = async (req, res, next) => {
 
 const indexByBunker = async (req, res) => {
   let bunkerId = req.params.bunkerId;
-  console.log(bunkerId)
+  const skip =
+    req.query.skip && /^\d+$/.test(req.query.skip) ? Number(req.query.skip) : 0;
   try {
-    let comments = await BunkerModel.findById(bunkerId).populate({path: 'comments', model: 'Comment', populate: {path: 'author', model: 'User'}});
-      console.log(comments)
+    let comments = await BunkerModel.findById(bunkerId)
+      .limit(5)
+      .populate({
+        options: { skip: skip, limit: 5, sort: { createdAt: -1 } },
+        path: "comments",
+        model: "Comment",
+        populate: { path: "author", model: "User" },
+      });
+
     res.status(200).json(comments);
   } catch (error) {
     res.status(400).send(error);
