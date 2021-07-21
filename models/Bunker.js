@@ -36,6 +36,10 @@ const BunkerSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    votes: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Vote",
+    },
 
     // `Date.now()` returns the current unix timestamp as a number
     // resourcesCounter: {
