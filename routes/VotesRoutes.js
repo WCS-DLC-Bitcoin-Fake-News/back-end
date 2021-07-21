@@ -12,7 +12,7 @@ router.get("/:id", VoteController.show);
 router.get("/", VoteController.index, VoteController.indexByBunker);
 
 // update a certain vote
-router.put("/:id", auth, VoteController.update);
+router.put("/:id", VoteController.update);
 
 // delete a certain vote
 router.delete("/:id", VoteController.destroy);
