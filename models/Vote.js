@@ -6,12 +6,13 @@ const VoteSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
-    bunker: {
+    bunkerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Bunker",
     },
     votes: {
         type: Number,
+        default: 1
     },
     pro: {
         type: Boolean,
@@ -19,6 +20,7 @@ const VoteSchema = new mongoose.Schema(
     },
     stake: {
         type: Number,
+        default: 1
     }
 
   }
