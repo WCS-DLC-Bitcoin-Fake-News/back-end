@@ -34,6 +34,12 @@ const UserSchema = new mongoose.Schema(
         ref: "Comment",
       },
     ],
+    highlights: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Highlight",
+      },
+    ],
   },
   { timestamps: true }
 );
