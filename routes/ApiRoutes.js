@@ -4,6 +4,7 @@ import BunkerRoutes from "./BunkerRoutes.js"
 import CommentRoutes from "./CommentRoutes.js"
 import ThreadRoutes from "./ThreadRoutes.js"
 import VotesRoutes from "./VotesRoutes.js"
+import HighlightRoutes from "./HighlightRoutes.js"
 const router = express.Router();
 
 // This is equivalent to defining routes in the way bellow 
@@ -34,8 +35,11 @@ const appRoutes = [{
     route: "/votes",
     middleware: VotesRoutes
   },
-]
+  {
+    route: "/highlights",
+    middleware: HighlightRoutes
+  }
+];
 
 routesBuilder(appRoutes);
-
 export default router;
