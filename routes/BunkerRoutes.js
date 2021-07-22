@@ -5,11 +5,15 @@ import scrap from "../middleware/scrap.js"
 import auth from "../middleware/auth.js";
 import CommentRoutes from "../routes/CommentRoutes.js";
 import scrapTweet from "../middleware/scrapTweet.js";
-import VotesRoutes from "../routes/VotesRoutes.js"
+import VotesRoutes from "../routes/VotesRoutes.js";
+import HighlightRoutes from "../routes/HighlightRoutes.js";
 
 
-// post a vote
-router.use("/:bunkerId/votes", VotesRoutes)
+// post a vote to a certain bunker
+router.use("/:bunkerId/votes", VotesRoutes);
+
+// post a highlight to a certain bunker
+router.use("/:bunkerId/highlights", HighlightRoutes);
 
 // create a bunker
 router.post("/", scrap, scrapTweet, bunkerController.create);
