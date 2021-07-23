@@ -1,5 +1,5 @@
 import express from "express";
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 import VoteController from "../controllers/VoteController.js";
 
 // create a vote
@@ -9,7 +9,7 @@ router.post("/", VoteController.create);
 //router.get("/:id", VoteController.show);
 
 // get all votes
-router.get("/", VoteController.indexByBunker);
+router.get("/", VoteController.indexByBunker, VoteController.indexByUser);
 
 // update a certain vote
 router.put("/:id", VoteController.update);
