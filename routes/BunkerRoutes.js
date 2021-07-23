@@ -1,13 +1,15 @@
 import express from "express";
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 import bunkerController from "../controllers/BunkerController.js";
-import scrap from "../middleware/scrap.js"
+import scrap from "../middleware/scrap.js";
 import auth from "../middleware/auth.js";
 import CommentRoutes from "../routes/CommentRoutes.js";
 import scrapTweet from "../middleware/scrapTweet.js";
 import VotesRoutes from "../routes/VotesRoutes.js";
 import HighlightRoutes from "../routes/HighlightRoutes.js";
 
+// post a vote to a certain bunker
+router.use("/:userId/votes", VotesRoutes);
 
 // post a vote to a certain bunker
 router.use("/:bunkerId/votes", VotesRoutes);
@@ -31,6 +33,6 @@ router.put("/:id", auth, bunkerController.update);
 router.delete("/:id", bunkerController.destroy);
 
 // show all comments of a bunker
-router.use("/:bunkerId/comments", CommentRoutes)
+router.use("/:bunkerId/comments", CommentRoutes);
 
 export default router;

@@ -1,7 +1,8 @@
 import express from "express";
-const router = express.Router({mergeParams: true});
-import BunkerRoutes from "./BunkerRoutes.js"
+const router = express.Router({ mergeParams: true });
+import BunkerRoutes from "./BunkerRoutes.js";
 import userController from "../controllers/UserController.js";
+import VotesRoutes from "./VotesRoutes.js";
 
 // Register user
 router.post("/signup", userController.create);
@@ -22,12 +23,6 @@ router.put("/:id", userController.update);
 router.delete("/:id", userController.destroy);
 
 // Access bunkers resource by user id (this is a nested route)
-router.use("/:userId/bunkers", (req, res, next) => {
-    console.log("i am here before pdf")
-    let thisUserIdIsTheUserIdLoggedIn = true
-    if(thisUserIdIsTheUserIdLoggedIn) next()
-    else res.error(403, "You can not create a bunker")
-}, BunkerRoutes);
-
+router.use("/:userId/votes", VotesRoutes);
 
 export default router;
