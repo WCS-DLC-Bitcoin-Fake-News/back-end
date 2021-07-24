@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer';
 
 const scrap = async (req, res, next) => {
+    console.log("in scrap")
     if(req.body.source.includes("twitter.com") ) {
         return next()
         } 
