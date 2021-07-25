@@ -54,12 +54,12 @@ const authorize = async (req, res) => {
     try {
         let user = await UserModel.findOne({ email });
         if (!user) {
-            return res.status(400).json({ msg: "Invalid Credentials" });
+            return res.status(400).send({ errorMessage: "Invalid Credentials" });
         }
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.status(400).json({ msg: "Invalid Credentials" });
+            return res.status(400).send({ errorMessage: "Invalid Credentials" });
         }
 
         delete user.password
@@ -79,7 +79,7 @@ const authorize = async (req, res) => {
             }
         );
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).json(error);
     }
 };
 
