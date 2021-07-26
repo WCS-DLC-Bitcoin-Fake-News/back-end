@@ -34,12 +34,16 @@ const create = async (req, res, next) => {
       bunkerId,
     });
     await newVote.save();
+    console.log(newVote.stake)
     await UserModel.findByIdAndUpdate(author, {
       $push: { votes: newVote._id },
     });
 
-    await BunkerModel.findByIdAndUpdate(bunkerId, {
-      $push: { votes: newVote._id },
+    let bunker = await BunkerModel.findByIdAndUpdate(bunkerId, {
+      $push: { 
+        votes: newVote._id,
+        stake: bunker.stake + newVote.stake
+      },
     });
 
     res.send(newVote);

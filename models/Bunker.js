@@ -33,9 +33,13 @@ const BunkerSchema = new mongoose.Schema(
         ref: "Highlight",
       },
     ],
+    initialStake: {
+      type: [mongoose.Schema.Types.Integer],
+      default: 0,
+    },
     stake: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "BunkerStake",
+      type: [mongoose.Schema.Types.Integer],
+      default: 0,
     },
     published: {
       type: Boolean,
@@ -44,8 +48,7 @@ const BunkerSchema = new mongoose.Schema(
     votes: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Vote",
-    },
-
+    }
     // `Date.now()` returns the current unix timestamp as a number
     // resourcesCounter: {
     //   type: [mongoose.Schema.Types.ObjectId],
@@ -71,10 +74,6 @@ const BunkerSchema = new mongoose.Schema(
     //   type: [mongoose.Schema.Types.ObjectId],
     //   ref: "resource",
     // },
-    tag: {
-      type: String,
-      // required: [true, "Please select a tag"],
-    },
   },
   { timestamps: true }
 );
