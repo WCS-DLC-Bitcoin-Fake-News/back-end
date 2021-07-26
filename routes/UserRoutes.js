@@ -25,4 +25,7 @@ router.delete("/:id", userController.destroy);
 // Access bunkers resource by user id (this is a nested route)
 router.use("/:userId/votes", VotesRoutes);
 
+// Access bunkers resource by user id (this is a nested route)
+router.use("/:userId/bunkers", BunkerRoutes);
+
 export default router;

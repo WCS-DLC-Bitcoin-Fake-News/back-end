@@ -9,15 +9,14 @@ const BunkerSchema = new mongoose.Schema(
     },
     title: {
       type: String,
-      // required: [true, "A title should be provided"],
+      default: "Edit your title...",
     },
     body: {
       type: String,
     },
-
     source: {
       type: String,
-      required: [true, "We can not save a Bunker without a url"],
+      required: [true, "We can not save a Bunker without a url"]
     },
     printedSource: {
       type: String,
@@ -25,7 +24,7 @@ const BunkerSchema = new mongoose.Schema(
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
+        ref: "Comment"
       },
     ],
     highlights: [

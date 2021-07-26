@@ -31,12 +31,20 @@ const create = async (req, res, next) => {
 // @desc    GET all bunkers
 // @access  Public
 const index = async (req, res) => {
+  console.log("index bunker")
   try {
     const skip =
       req.query.skip && /^\d+$/.test(req.query.skip)
         ? Number(req.query.skip)
         : 0;
-    let bunkers = await BunkerModel.find().skip(skip).limit(8);
+    let bunkers = await BunkerModel.find()
+      .populate("author")
+      .skip(skip)
+      .limit(8)
+      .where("published")
+      .equals(true)
+      .sort({date: 'descending'})
+      
 
     res.status(200).json(bunkers);
   } catch (error) {
@@ -49,10 +57,10 @@ const index = async (req, res) => {
 // @desc    get a bunker by id
 // @access  Public
 const show = async (req, res) => {
+  console.log("show one bunker")
+
   try {
-    let bunker = await BunkerModel.findOne({ _id: req.params.id }).populate(
-      "author"
-    );
+    let bunker = await BunkerModel.findOne({ _id: req.params.id }).populate("author");
 
     if (!bunker) {
       return res.status(400).json({ msg: "User not found" });

@@ -9,7 +9,10 @@ dotenv.config()
 // @desc    create and login a user
 // @access  Public
 const create = async (req, res, next) => {
+    console.log("here")
     const { name, email, password } = req.body;
+    console.log(name)
+
     try {
         let user = await UserModel.findOne({ email });
         if (user) {
@@ -51,12 +54,12 @@ const authorize = async (req, res) => {
     try {
         let user = await UserModel.findOne({ email });
         if (!user) {
-            return res.status(400).json({ msg: "Invalid Credentials" });
+            return res.status(400).send({ errorMessage: "Invalid Credentials" });
         }
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.status(400).json({ msg: "Invalid Credentials" });
+            return res.status(400).send({ errorMessage: "Invalid Credentials" });
         }
 
         delete user.password
@@ -76,7 +79,7 @@ const authorize = async (req, res) => {
             }
         );
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).json(error);
     }
 };
 
@@ -84,8 +87,9 @@ const authorize = async (req, res) => {
 // @desc    get user by id
 // @access  Public
 const show = async (req, res) => {
+    console.log("show one user");
     try {
-        let user = await UserModel.findById(req.params.id).select("-password");
+        let user = await UserModel.findById(req.params.id).select("-password").populate("bunkers").populate("comments").populate("votes");
         if (!user) {
             return res.status(400).json({ msg: "User not found" });
         }
@@ -95,7 +99,6 @@ const show = async (req, res) => {
         res.status(400).send(error);
     }
 };
-
 
 // @route   GET/users/
 // @desc    get a list of users

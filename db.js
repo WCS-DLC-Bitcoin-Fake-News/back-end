@@ -8,7 +8,7 @@ const connectDB = async () => {
       useFindAndModify: false,
     });
     console.log("Database connected");
-  } catch (error) {
+  } catch (error) { 
     console.log(error);
     process.exit(1);
   }
