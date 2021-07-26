@@ -34,11 +34,11 @@ const BunkerSchema = new mongoose.Schema(
       },
     ],
     initialStake: {
-      type: [mongoose.Schema.Types.Integer],
+      type: mongoose.Schema.Types.Number,
       default: 0,
     },
     stake: {
-      type: [mongoose.Schema.Types.Integer],
+      type: mongoose.Schema.Types.Number,
       default: 0,
     },
     published: {
