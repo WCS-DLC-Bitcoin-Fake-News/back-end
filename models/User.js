@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
   {
+    avatar: {
+      type: String,
+    },
     name: {
       type: String,
       required: [true, "A name should be provided"],
@@ -17,6 +20,7 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       minLength: [8, "Password should be 8 or more characters"],
+      select: true,
     },
     bunkers: [
       {
@@ -24,10 +28,22 @@ const UserSchema = new mongoose.Schema(
         ref: "Bunker",
       },
     ],
+    votes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Vote",
+      },
+    ],
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Comment",
+      },
+    ],
+    highlights: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Highlight",
       },
     ],
   },

@@ -5,30 +5,48 @@ const BunkerSchema = new mongoose.Schema(
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: [ true , "We can not save a Bunker without an author" ]
+      required: [true, "We can not save a Bunker without an author"],
     },
     title: {
       type: String,
-      // required: [true, "A title should be provided"],
+      default: "Edit your title...",
     },
     body: {
       type: String,
     },
-    linkedMedia: {
-      thumbnail: {
-        type: String,
-      },
-      thumbnailTitle: {
-        type: String,
-      },
-      thumbnailDescription: {
-        type: String,
-      },
-    },
-    postDescription: {
+    source: {
       type: String,
-      // required: [true, "Please provide a description of your research"],
+      required: [true, "We can not save a Bunker without a url"]
     },
+    printedSource: {
+      type: String,
+    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment"
+      },
+    ],
+    highlights: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Highlight",
+      },
+    ],
+    stake: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "BunkerStake",
+    },
+    published: {
+      type: Boolean,
+      default: false,
+    },
+    votes: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Vote",
+    },
+
+    // `Date.now()` returns the current unix timestamp as a number
     // resourcesCounter: {
     //   type: [mongoose.Schema.Types.ObjectId],
     //   ref: "Resource",
@@ -40,11 +58,6 @@ const BunkerSchema = new mongoose.Schema(
     // flagCounter: {
     //   type: [mongoose.Schema.Types.ObjectId],
     //   ref: "Flag",
-    // },
-    // stakeCounter: {
-    //   type: [mongoose.Schema.Types.ObjectId],
-    //   // Not clear where should the data from the stake is coming, wallet & stake are in Profile.js
-    //   ref: "Profile",
     // },
     // deadline: {
     //   type: Date,
