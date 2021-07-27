@@ -9,7 +9,7 @@ import VotesRoutes from "../routes/VotesRoutes.js";
 import HighlightRoutes from "../routes/HighlightRoutes.js";
 
 // post a vote to a certain bunker
-//router.use("/:userId/votes", VotesRoutes);
+// router.use("/:userId/votes", VotesRoutes);
 
 // post a vote to a certain bunker
 router.use("/:bunkerId/votes", VotesRoutes);

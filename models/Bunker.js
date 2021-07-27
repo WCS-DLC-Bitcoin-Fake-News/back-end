@@ -39,7 +39,7 @@ const BunkerSchema = new mongoose.Schema(
     },
     stake: {
       type: mongoose.Schema.Types.Number,
-      default: 0,
+      default: 34,
     },
     published: {
       type: Boolean,
