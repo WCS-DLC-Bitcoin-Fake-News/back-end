@@ -48,6 +48,9 @@ const BunkerSchema = new mongoose.Schema(
     votes: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Vote",
+    },
+    deadline: {
+      type: mongoose.Schema.Types.Date
     }
     // `Date.now()` returns the current unix timestamp as a number
     // resourcesCounter: {
