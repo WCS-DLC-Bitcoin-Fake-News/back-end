@@ -9,8 +9,9 @@ import dotenv from "dotenv";
 
 const create = async (req, res, next) => {
   const { author, pro, votes } = req.body;
+
   const { bunkerId } = req.params;
-  console.log(req.body, bunkerId);
+  console.log(req.body, req.params, "here we go");
 
   try {
     const voteExist = await VoteModel.exists({ author, bunkerId, pro });
@@ -26,23 +27,48 @@ const create = async (req, res, next) => {
         stake: Math.pow(vote.votes + 1, 2),
       });
 
-      return res.send(vote);
+      let bunker = await BunkerModel.findById(bunkerId);
+      await bunker.update({
+            stake: bunker.stake + vote.stake
+      })
+
+      let user = await UserModel.findById(author);
+      console.log(vote.stake, user.wallet)
+      await user.update({
+            wallet: user.wallet - vote.stake
+      })
+
+      return res.send({ ...vote, votantNewWallet: user.wallet });
     }
 
     const newVote = new VoteModel({
       ...req.body,
-      bunkerId,
+      bunkerId
     });
+
     await newVote.save();
     await UserModel.findByIdAndUpdate(author, {
-      $push: { votes: newVote._id },
+      $push: { votes: newVote._id }
     });
+
+    let user = await UserModel.findById(author);
+    console.log(user)
+
+    await user.update({
+          wallet: user.wallet - newVote.stake
+    })
 
     await BunkerModel.findByIdAndUpdate(bunkerId, {
       $push: { votes: newVote._id },
     });
+  
+    let bunker = await BunkerModel.findById(bunkerId);
 
-    res.send(newVote);
+    await bunker.update({
+          stake: bunker.stake + newVote.stake
+    })
+
+    res.send({...newVote,  votantNewWallet: user.wallet});
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

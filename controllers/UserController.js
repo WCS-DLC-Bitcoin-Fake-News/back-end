@@ -5,6 +5,11 @@ import auth from "../middleware/auth.js";
 import dotenv from "dotenv"
 dotenv.config()
 
+const RandomNumber = ( min , max ) => { 
+    const num = Math.round( Math . random () * ( max - min ) + min );
+    return num
+}
+
 // @route   POST/users/signup
 // @desc    create and login a user
 // @access  Public
@@ -18,10 +23,13 @@ const create = async (req, res, next) => {
         if (user) {
             return res.status(400).send("User already exists");
         }
+
+
         const newUser = new UserModel({
             name,
             email,
             password,
+            avatar: `https://i.pravatar.cc/150?img=${RandomNumber(1, 30)}`
         });
         const salt = await bcrypt.genSalt(10);
         newUser.password = await bcrypt.hash(password, salt);

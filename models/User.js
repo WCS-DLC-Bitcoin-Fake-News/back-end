@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema(
         ref: "Bunker",
       },
     ],
+    wallet: {
+        type: mongoose.Schema.Types.Number,
+        default: 52
+    },
     votes: [
       {
         type: mongoose.Schema.Types.ObjectId,
