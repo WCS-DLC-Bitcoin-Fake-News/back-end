@@ -16,6 +16,7 @@ const create = async (req, res, next) => {
       author: userId,
       ...req.body,
     });
+
     await newBunker.save();
     await UserModel.findByIdAndUpdate(userId, {
       $push: { bunkers: newBunker.id },
@@ -60,7 +61,7 @@ const show = async (req, res) => {
   console.log("show one bunker")
 
   try {
-    let bunker = await BunkerModel.findOne({ _id: req.params.id }).populate("author");
+    let bunker = await BunkerModel.findOne({ _id: req.params.id }).populate("author").populate("votes");
 
     if (!bunker) {
       return res.status(400).json({ msg: "User not found" });
