@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema(
     ],
     wallet: {
         type: mongoose.Schema.Types.Number,
-        default: 52
+        default: 1000
     },
     votes: [
       {
